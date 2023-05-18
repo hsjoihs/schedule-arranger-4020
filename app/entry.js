@@ -8,21 +8,19 @@ toggle_buttons.forEach(button => {
     const availability = parseInt(button.getAttribute('data-availability'));
     const nextAvailability = (availability + 1) % 3;
     const url = `/schedules/${scheduleId}/users/${userId}/candidates/${candidateId}`;
-    fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ availability: nextAvailability })
-    }).then(response => {
+    });
+    const data = await (async () => {
       if (response.ok) {
         return response.json();
       }
       throw new Error();
-    }).then(data => {
-      button.setAttribute('data-availability', data.availability);
-      const availabilityLabels = ['欠', '？', '出'];
-      button.textContent = availabilityLabels[data.availability];
-    });
+    })();
+    button.setAttribute('data-availability', data.availability);
+    const availabilityLabels = ['欠', '？', '出'];
+    button.textContent = availabilityLabels[data.availability];
   });
 });
