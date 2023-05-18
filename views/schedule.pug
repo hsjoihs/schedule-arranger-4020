@@ -25,3 +25,13 @@ block content
                 data-availability=availability).availability-toggle-button #{availabilityLabels[availability]}
             else
               p #{availabilityLabels[availability]}
+    tr
+      th コメント
+      each user in users
+        if user.isSelf
+          td
+            p #{commentMap.get(user.userId)}
+            button 編集
+        else
+          td
+            p #{commentMap.get(user.userId)}
