@@ -23,3 +23,24 @@ toggle_buttons.forEach(button => {
     button.textContent = availabilityLabels[data.availability];
   });
 });
+
+const buttonSelfComment = document.querySelector('#self-comment-button');
+buttonSelfComment.addEventListener('click', async () => {
+  const scheduleId = buttonSelfComment.getAttribute('data-schedule-id');
+  const userId = buttonSelfComment.getAttribute('data-user-id');
+  const comment = prompt('コメントを255文字以内で入力してください。');
+  if (comment) {
+    const url = `/schedules/${scheduleId}/users/${userId}/comments`;
+    const data = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ comment: comment })
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    });
+    document.querySelector('#self-comment').textContent = data.comment;
+  }
+});

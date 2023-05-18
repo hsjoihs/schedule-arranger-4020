@@ -47,5 +47,43 @@ toggle_buttons.forEach(function (button) {
     }, _callee);
   })));
 });
+var buttonSelfComment = document.querySelector('#self-comment-button');
+buttonSelfComment.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  var scheduleId, userId, comment, url, data;
+  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+    while (1) switch (_context2.prev = _context2.next) {
+      case 0:
+        scheduleId = buttonSelfComment.getAttribute('data-schedule-id');
+        userId = buttonSelfComment.getAttribute('data-user-id');
+        comment = prompt('コメントを255文字以内で入力してください。');
+        if (!comment) {
+          _context2.next = 9;
+          break;
+        }
+        url = "/schedules/".concat(scheduleId, "/users/").concat(userId, "/comments");
+        _context2.next = 7;
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            comment: comment
+          })
+        }).then(function (response) {
+          if (!response.ok) {
+            throw new Error();
+          }
+          return response.json();
+        });
+      case 7:
+        data = _context2.sent;
+        document.querySelector('#self-comment').textContent = data.comment;
+      case 9:
+      case "end":
+        return _context2.stop();
+    }
+  }, _callee2);
+})));
 /******/ })()
 ;
