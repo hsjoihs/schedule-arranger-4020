@@ -9,10 +9,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var toggle_buttons = document.querySelectorAll('.availability-toggle-button');
 toggle_buttons.forEach(function (button) {
-  button.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    var scheduleId, userId, candidateId, availability, nextAvailability, url, response, data, availabilityLabels;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  button.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var scheduleId, userId, candidateId, availability, nextAvailability, url, data, availabilityLabels;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
         case 0:
           scheduleId = button.getAttribute('data-schedule-id');
           userId = button.getAttribute('data-user-id');
@@ -20,7 +20,7 @@ toggle_buttons.forEach(function (button) {
           availability = parseInt(button.getAttribute('data-availability'));
           nextAvailability = (availability + 1) % 3;
           url = "/schedules/".concat(scheduleId, "/users/").concat(userId, "/candidates/").concat(candidateId);
-          _context2.next = 8;
+          _context.next = 8;
           return fetch(url, {
             method: 'POST',
             headers: {
@@ -29,37 +29,22 @@ toggle_buttons.forEach(function (button) {
             body: JSON.stringify({
               availability: nextAvailability
             })
+          }).then(function (response) {
+            if (!response.ok) {
+              throw new Error();
+            }
+            return response.json();
           });
         case 8:
-          response = _context2.sent;
-          _context2.next = 11;
-          return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-            return _regeneratorRuntime().wrap(function _callee$(_context) {
-              while (1) switch (_context.prev = _context.next) {
-                case 0:
-                  if (!response.ok) {
-                    _context.next = 2;
-                    break;
-                  }
-                  return _context.abrupt("return", response.json());
-                case 2:
-                  throw new Error();
-                case 3:
-                case "end":
-                  return _context.stop();
-              }
-            }, _callee);
-          }))();
-        case 11:
-          data = _context2.sent;
+          data = _context.sent;
           button.setAttribute('data-availability', data.availability);
           availabilityLabels = ['欠', '？', '出'];
           button.textContent = availabilityLabels[data.availability];
-        case 15:
+        case 12:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee);
   })));
 });
 /******/ })()
