@@ -1,7 +1,7 @@
 'use strict';
 const toggle_buttons = document.querySelectorAll('.availability-toggle-button');
 toggle_buttons.forEach(button => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
     const scheduleId = button.getAttribute('data-schedule-id');
     const userId = button.getAttribute('data-user-id');
     const candidateId = button.getAttribute('data-candidate-id');
@@ -20,7 +20,7 @@ toggle_buttons.forEach(button => {
       }
       throw new Error();
     }).then(data => {
-      button.setAttribute('availability', data.availability);
+      button.setAttribute('data-availability', data.availability);
       const availabilityLabels = ['欠', '？', '出'];
       button.textContent = availabilityLabels[data.availability];
     });
